@@ -18,17 +18,26 @@ public class PlayerController {
     }
 
     @PostMapping
-    public Player createPlayer(@RequestBody Player player) {
-        return playerService.createPlayer(player);
+    public ResponseEntity<Player> createPlayer(
+            @RequestBody Player player) {
+
+        return ResponseEntity.ok(
+                playerService.createPlayer(player)
+        );
     }
 
     @GetMapping
-    public List<Player> getAllPlayers() {
-        return playerService.getAllPlayers();
+    public ResponseEntity<List<Player>> getAllPlayers() {
+
+        return ResponseEntity.ok(
+                playerService.getAllPlayers()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Player> getPlayerById(@PathVariable Long id) {
+    public ResponseEntity<Player> getPlayerById(
+            @PathVariable Long id) {
+
         return playerService.getPlayerById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -39,17 +48,19 @@ public class PlayerController {
             @PathVariable Long id,
             @RequestBody Player player) {
 
-        Player updated = playerService.updatePlayer(id, player);
+        Player updatedPlayer =
+                playerService.updatePlayer(id, player);
 
-        if (updated == null) {
+        if (updatedPlayer == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(updatedPlayer);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlayer(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePlayer(
+            @PathVariable Long id) {
 
         if (!playerService.getPlayerById(id).isPresent()) {
             return ResponseEntity.notFound().build();

@@ -40,7 +40,7 @@ public class PlayerService {
             existing.setName(player.getName());
             existing.setAge(player.getAge());
             existing.setRole(player.getRole());
-            existing.setTeamName(player.getTeamName());
+            existing.setTeamId(player.getTeamId());
 
             return playerRepository.save(existing);
         }
